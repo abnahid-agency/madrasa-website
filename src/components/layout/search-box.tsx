@@ -14,7 +14,7 @@ export function SearchBox() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   return (
-    <form action="/search" method="get" role="search" className="flex w-full max-w-[300px]">
+    <form action="/search" method="get" role="search" className="flex w-full sm:max-w-[300px]">
       <input
         ref={inputRef}
         type="search"

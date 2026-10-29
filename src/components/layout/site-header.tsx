@@ -50,7 +50,9 @@ export function SiteHeader() {
           </ul>
         </div>
 
-        <div className="order-first w-full lg:order-none lg:w-auto">
+                {/* On mobile the search sits below the logo + name row (order-last); on
+            desktop it returns to its natural right-hand position (order-none). */}
+        <div className="order-last w-full lg:order-none lg:w-auto">
           <SearchBox />
         </div>
       </div>
