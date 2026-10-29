@@ -1,26 +1,298 @@
-@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-inter);
+  --font-bangla: var(--font-solaiman-lipi);
   --font-mono: var(--font-geist-mono);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Light theme */
+:root {
+  color-scheme: light;
+
+  --background: oklch(0.985 0.004 245);
+  --foreground: oklch(0.22 0.035 255);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.035 255);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.035 255);
+
+  /* Institutional blue */
+  --primary: oklch(0.37 0.105 255);
+  --primary-foreground: oklch(0.985 0.004 245);
+
+  /* Soft green */
+  --secondary: oklch(0.94 0.035 155);
+  --secondary-foreground: oklch(0.34 0.085 155);
+
+  --muted: oklch(0.96 0.008 245);
+  --muted-foreground: oklch(0.49 0.025 255);
+
+  /* Subtle gold-tinted highlight */
+  --accent: oklch(0.95 0.035 85);
+  --accent-foreground: oklch(0.38 0.07 65);
+
+  --destructive: oklch(0.55 0.2 27);
+
+  --border: oklch(0.90 0.012 245);
+  --input: oklch(0.89 0.015 245);
+  --ring: oklch(0.53 0.11 250);
+
+  /* Charts */
+  --chart-1: oklch(0.43 0.11 255);
+  --chart-2: oklch(0.54 0.13 155);
+  --chart-3: oklch(0.72 0.12 85);
+  --chart-4: oklch(0.59 0.09 220);
+  --chart-5: oklch(0.48 0.08 190);
+
+  --radius: 0.625rem;
+
+  /* Sidebar */
+  --sidebar: oklch(0.975 0.008 245);
+  --sidebar-foreground: oklch(0.25 0.035 255);
+  --sidebar-primary: oklch(0.37 0.105 255);
+  --sidebar-primary-foreground: oklch(0.985 0.004 245);
+  --sidebar-accent: oklch(0.93 0.025 245);
+  --sidebar-accent-foreground: oklch(0.30 0.07 255);
+  --sidebar-border: oklch(0.90 0.012 245);
+  --sidebar-ring: oklch(0.53 0.11 250);
+}
+
+/* Dark theme */
+.dark {
+  color-scheme: dark;
+
+  --background: oklch(0.17 0.025 255);
+  --foreground: oklch(0.96 0.008 245);
+
+  --card: oklch(0.215 0.028 255);
+  --card-foreground: oklch(0.96 0.008 245);
+
+  --popover: oklch(0.215 0.028 255);
+  --popover-foreground: oklch(0.96 0.008 245);
+
+  --primary: oklch(0.72 0.095 245);
+  --primary-foreground: oklch(0.19 0.035 255);
+
+  --secondary: oklch(0.29 0.045 155);
+  --secondary-foreground: oklch(0.88 0.07 155);
+
+  --muted: oklch(0.255 0.025 255);
+  --muted-foreground: oklch(0.72 0.02 245);
+
+  --accent: oklch(0.30 0.045 85);
+  --accent-foreground: oklch(0.91 0.07 85);
+
+  --destructive: oklch(0.68 0.17 25);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.68 0.09 245);
+
+  --chart-1: oklch(0.72 0.095 245);
+  --chart-2: oklch(0.73 0.12 155);
+  --chart-3: oklch(0.81 0.12 85);
+  --chart-4: oklch(0.70 0.09 220);
+  --chart-5: oklch(0.72 0.08 190);
+
+  --sidebar: oklch(0.195 0.028 255);
+  --sidebar-foreground: oklch(0.94 0.008 245);
+  --sidebar-primary: oklch(0.72 0.095 245);
+  --sidebar-primary-foreground: oklch(0.19 0.035 255);
+  --sidebar-accent: oklch(0.27 0.035 255);
+  --sidebar-accent-foreground: oklch(0.94 0.008 245);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.68 0.09 245);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Madrasah homepage palette — hex values sampled from the approved design.  */
+/* Exposed as CSS variables; use them as bg-[var(--m-*)] in Tailwind.        */
+/* ------------------------------------------------------------------------ */
+:root {
+  --m-topbar: #0d4b98;
+  --m-nav: #043e8d;
+  --m-nav-deep: #02346f;
+  --m-nav-home: #086dd2;
+  --m-ink-heading: #061b57;
+  --m-blue: #1063b8;
+  --m-blue-strong: #0b4e94;
+  --m-meta: #47566b;
+
+  --m-footer: #023d77;
+  --m-footer-deep: #012b57;
+  --m-social: #0a56a4;
+
+  --m-notice-bg: #e6f0fd;
+  --m-notice-label: #5f16c2;
+  --m-new-pill: #fd0806;
+
+  --m-quick-from: #a31a54;
+  --m-quick-to: #ef2c51;
+
+  --m-sec-purple-from: #4f13d4;
+  --m-sec-purple-to: #6115c7;
+  --m-sec-principal: #442bc7;
+  --m-sec-vp: #3d4aea;
+
+  --m-panel-green: #1e9b5c;
+  --m-panel-pink: #bc6aca;
+  --m-panel-red: #eb2a4e;
+  --m-panel-olive: #7e8528;
+
+  --m-cardblue-from: #0662b6;
+  --m-cardblue-to: #0058a6;
+
+  --m-caption: #0a2a55;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    font-family: var(--font-solaiman-lipi), sans-serif;
+  }
+
+  body {
+    @apply text-foreground;
+    font-family: var(--font-solaiman-lipi), sans-serif;
+    /* Clean white page background. The decorative tapestry is added only on
+       wide screens by the media query below, so tablets/mobile never fetch
+       or render it. */
+    background-color: #ffffff;
+  }
+
+  /* Decorative Bangladeshi tapestry background.
+     Asset facts (measured): 1470x1942 px, 1 frame (static), with an exact
+     1100 px pure-white centre band (x 185-1284) framed by ~185 px art bands.
+     -> `background-size: auto` keeps every illustration at its natural 1:1
+        proportions (no stretching, no `cover` cropping).
+     -> `background-position: top center` keeps the artwork centred with the
+        frame; `repeat-y` tiles it down the page.
+     -> The white `.site-frame` (1200px) is layered above it, so the
+        illustrations only show in the outer gutters and can never cover
+        links, buttons or any interactive element.
+     -> Media-query-gated: tablets/mobile never fetch or render the GIF. */
+  @media (min-width: 1201px) {
+    body {
+      background-image: url("/images/bg_main_1100.gif");
+      background-repeat: repeat-y;
+      background-position: top center;
+      background-size: auto;
+    }
+  }
+
+  :lang(en) {
+    font-family: var(--font-inter), Arial, sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* The whole website (top bar, header, nav, page content, footer) lives in
+     this single centered white frame. On screens wider than 1200px the
+     body's decorative tapestry shows in the gutters around it; below 1200px
+     the frame simply becomes fluid and fills the viewport. */
+  .site-frame {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    min-height: 100vh;
+    background-color: #ffffff;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  /* Shared inner container: matches the frame exactly, so every section
+     (top bar, header, nav, hero, main grid, footer columns) aligns to the
+     same edges without repeating width/margin values. Horizontal padding
+     stays with each component (the nav band stays flush by default). */
+  .site-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    box-sizing: border-box;
+  }
+
+  /* CSS-only notice marquee: one loop of the track, duplicated inline to
+     appear seamless. Pauses on hover and stops entirely when the visitor
+     prefers reduced motion (announced text remains fully available). */
+  .m-ticker-track {
+    display: inline-flex;
+    min-width: 100%;
+    animation: m-ticker 28s linear infinite;
+  }
+
+  .m-ticker:hover .m-ticker-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes m-ticker {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .m-ticker-track {
+      animation: none;
+      white-space: normal;
+    }
+  }
 }
