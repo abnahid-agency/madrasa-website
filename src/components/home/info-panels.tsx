@@ -6,7 +6,7 @@ import {
   ExternalLink,
   UsersRound,
 } from "lucide-react"
-import { infoPanels, type InfoPanel } from "@/data/madrasa"
+import { infoPanels, type InfoPanel } from "@/data/info-panels/info-panels"
 import { T } from "@/components/language-provider"
 
 const toneClass: Record<InfoPanel["tone"], string> = {
@@ -33,7 +33,6 @@ const iconByKey: Record<
   links: ExternalLink,
 }
 
-/* The four panel bodies link to their future routes. */
 const panelHref: Record<InfoPanel["id"], string> = {
   curriculum: "/academic#curriculum",
   students: "/information",
@@ -41,11 +40,6 @@ const panelHref: Record<InfoPanel["id"], string> = {
   links: "/information#links",
 }
 
-/**
- * 2×2 grid of coloured information panels (curriculum / students' centre /
- * downloads / website links), each with its own checklist bullets — as in the
- * approved design.
- */
 export function InfoPanels() {
   return (
     <div className="grid gap-3.5 sm:grid-cols-2">

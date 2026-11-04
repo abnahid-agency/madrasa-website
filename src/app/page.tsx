@@ -8,13 +8,16 @@ import { LeadershipCards } from "@/components/home/leadership-cards";
 import { InfoPanels } from "@/components/home/info-panels";
 import { QuickLinks } from "@/components/home/quick-links";
 import { NoticeBoard } from "@/components/home/notice-board";
-import { EventsSection } from "@/components/home/events-section";
 import { GallerySection } from "@/components/home/gallery-section";
+import { DonationSection } from "@/components/home/donation-section";
+import { PostsSection } from "@/components/home/posts-section";
 
 export const metadata: Metadata = createPageMetadata({
   title: SITE.title,
   path: "/",
 });
+
+export const instant = false;
 
 export default function HomePage() {
   return (
@@ -39,8 +42,9 @@ export default function HomePage() {
             <aside aria-label="সাইডবার / Sidebar" className="flex min-w-0 flex-col gap-3.5">
               <QuickLinks />
               <NoticeBoard />
-              <EventsSection />
+              <PostsSection />
               <GallerySection />
+              <DonationSection />
             </aside>
           </div>
         </div>

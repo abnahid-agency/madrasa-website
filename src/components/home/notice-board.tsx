@@ -8,7 +8,7 @@ import { SectionCard } from "@/components/home/section-card"
 /**
  * Sidebar notice board: blue gradient header with a "সব লিস্ট" action, then
  * priced rows of date-badge + title. Titles are transcribed from the approved
- * design (see // VERIFY in `src/data/madrasa.ts`) and link to the future
+ * design (see the notices data module) and link to the future
  * `/notices` route.
  */
 export function NoticeBoard() {

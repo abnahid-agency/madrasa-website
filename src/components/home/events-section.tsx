@@ -10,7 +10,7 @@ import { SectionCard } from "@/components/home/section-card"
  * Sidebar events card. Following the approved design's pixels, only rows 1 & 3
  * carry photos; rows 2 & 4 are date-badge + title rows. Event photos are
  * reference-screenshot crops awaiting originals from the administration;
- * dates/months are flagged // VERIFY in `src/data/madrasa.ts`.
+ * dates/months are flagged for verification in the events data module.
  */
 export function EventsSection() {
   return (
@@ -29,10 +29,10 @@ export function EventsSection() {
       }
     >
       <ul className="flex flex-col">
-        {events.map((event, index) => (
-          <li key={index} className="border-b border-slate-100 last:border-b-0">
+        {events.filter((event) => event.published).slice(0, 4).map((event) => (
+          <li key={event.slug} className="border-b border-slate-100 last:border-b-0">
             <Link
-              href="/events"
+              href={`/events/${event.slug}`}
               className="flex min-h-14 items-center gap-2.5 px-2.5 py-2 transition-colors hover:bg-[var(--m-notice-bg)]"
             >
               {event.image ? (

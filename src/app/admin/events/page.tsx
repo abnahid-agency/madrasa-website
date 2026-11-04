@@ -1,0 +1,14 @@
+import { cookies } from "next/headers"
+import { events as seedEvents } from "@/data/events/events"
+import { getContent } from "@/lib/content-store"
+import { adminLogin, saveEvent } from "./actions"
+
+export const instant = false
+
+export default async function AdminEventsPage() {
+  const jar = await cookies()
+  if (!process.env.ADMIN_SECRET) return <main className="site-container p-6"><h1 className="text-xl font-bold">Admin setup required</h1><p className="mt-2">Set ADMIN_SECRET before enabling event management.</p></main>
+  if (jar.get("ghdm-admin")?.value !== process.env.ADMIN_SECRET) return <main className="site-container max-w-md p-6"><h1 className="text-xl font-bold">Event administration</h1><form action={adminLogin} className="mt-4 space-y-3"><label className="block text-sm">Admin secret<input name="secret" type="password" required className="mt-1 w-full rounded border p-2" /></label><button className="rounded bg-[var(--m-blue)] px-4 py-2 text-white">Sign in</button></form></main>
+  const state = await getContent(); const event = state.events[0] || seedEvents[0]
+  return <main className="site-container p-6"><h1 className="text-xl font-bold">Event editor</h1><p className="mt-1 text-sm text-slate-600">Local server-action editor. Competition and photo relationships remain in the same content record.</p><form action={saveEvent} className="mt-5 grid gap-3 md:grid-cols-2"><input type="hidden" name="originalSlug" value={event.slug} /><label>Title (বাংলা)<input name="titleBn" defaultValue={event.title.bn} required className="mt-1 w-full rounded border p-2" /></label><label>Title (English)<input name="titleEn" defaultValue={event.title.en} required className="mt-1 w-full rounded border p-2" /></label><label>Slug<input name="slug" defaultValue={event.slug} required className="mt-1 w-full rounded border p-2" /></label><label>Date (বাংলা)<input name="dateBn" defaultValue={event.date.bn} className="mt-1 w-full rounded border p-2" /></label><label>Date (English)<input name="dateEn" defaultValue={event.date.en} className="mt-1 w-full rounded border p-2" /></label><label>Location (বাংলা)<input name="locationBn" defaultValue={event.location?.bn} className="mt-1 w-full rounded border p-2" /></label><label>Location (English)<input name="locationEn" defaultValue={event.location?.en} className="mt-1 w-full rounded border p-2" /></label><label className="md:col-span-2">Short description<input name="shortBn" defaultValue={event.shortDescription.bn} className="mt-1 w-full rounded border p-2" /></label><label className="md:col-span-2">Full description<textarea name="descriptionBn" defaultValue={event.description.bn} rows={5} className="mt-1 w-full rounded border p-2" /></label><label className="flex items-center gap-2"><input name="published" type="checkbox" defaultChecked={event.published} /> Published</label><button className="rounded bg-[var(--m-blue)] px-4 py-2 text-white md:col-span-2">Save event</button></form></main>
+}

@@ -3,18 +3,20 @@ import Image from "next/image"
 import Link from "next/link"
 import { CalendarDays } from "lucide-react"
 import { createPageMetadata } from "@/lib/seo"
-import { events } from "@/data/madrasa"
 import { T } from "@/components/language-provider"
 import { InnerPage } from "@/components/layout/inner-page"
-import { PendingNote } from "@/components/layout/pending-note"
 import { SectionCard } from "@/components/home/section-card"
+import { getContent } from "@/lib/content-store"
+
+export const instant = false
 
 export const metadata: Metadata = createPageMetadata({
   title: "ইভেন্টস",
   path: "/events",
 })
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const { events } = await getContent()
   return (
     <InnerPage
       title={{ bn: "ইভেন্টস", en: "Events" }}
@@ -30,8 +32,9 @@ export default function EventsPage() {
           icon={<CalendarDays />}
         >
           <ul className="flex flex-col">
-            {events.map((event, index) => (
-              <li key={index} className="flex gap-3 border-b border-slate-100 p-3 last:border-b-0">
+            {events.filter((event) => event.published).map((event) => (
+              <li key={event.slug} className="border-b border-slate-100 last:border-b-0">
+                <Link href={`/events/${event.slug}`} className="flex gap-3 p-3 transition-colors hover:bg-[var(--m-notice-bg)]">
                 {event.image ? (
                   <Image
                     src={event.image}
@@ -54,23 +57,14 @@ export default function EventsPage() {
                   <p className="text-[15px] font-semibold text-[var(--m-ink-heading)]">
                     <T as="span" t={event.title} />
                   </p>
-                  <p className="mt-0.5 text-[12.5px] text-[var(--m-meta)]">
-                    <T t={{ bn: "অনুষ্ঠানসূচিত মাস:", en: "Scheduled month:" }} />{" "}
-                    <T as="span" t={event.month} />
-                  </p>
+                  <p className="mt-0.5 text-[12.5px] text-[var(--m-meta)]"><T as="span" t={event.shortDescription} /></p>
+                  <span className="mt-1 inline-block rounded-full bg-[var(--m-notice-bg)] px-2 py-0.5 text-[11px] text-[var(--m-blue-strong)]"><T t={event.eventType} /></span>
                 </div>
+                </Link>
               </li>
             ))}
           </ul>
         </SectionCard>
-
-        <PendingNote
-          text={{
-            bn: "অনুষ্ঠানসমূহের বিস্তারিত সময় ও স্থান নিশ্চিত হওয়ার পর এই তালিকায় সংযুক্ত হবে।",
-            en: "Detailed times and venues for each programme will be added to this list once confirmed.",
-          }}
-          variant="soon"
-        />
 
         <Link href="/notices" className="w-fit text-[14px] font-medium text-[var(--m-blue)] hover:underline">
           <T t={{ bn: "নোটিশ বোর্ড দেখুন →", en: "See the notice board →" }} />

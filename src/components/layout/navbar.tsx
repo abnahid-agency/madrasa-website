@@ -6,7 +6,7 @@ import { UI } from "@/lib/i18n"
 import { T, useLanguage } from "@/components/language-provider"
 import { ChevronDown, ChevronRight, Home, Menu, X } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 /**
  * Full-width blue navigation bar. Desktop: horizontal menu with hover/focus
@@ -17,16 +17,31 @@ export function Navbar() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState<string | null>(null)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const navRef = useRef<HTMLElement>(null)
 
   const closeAll = () => {
     setOpen(false)
     setExpanded(null)
+    setOpenDropdown(null)
   }
+
+  useEffect(() => {
+    const onPointerDown = (event: PointerEvent) => {
+      if (!navRef.current?.contains(event.target as Node)) setOpenDropdown(null)
+    }
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenDropdown(null)
+    }
+    document.addEventListener("pointerdown", onPointerDown)
+    document.addEventListener("keydown", onKeyDown)
+    return () => { document.removeEventListener("pointerdown", onPointerDown); document.removeEventListener("keydown", onKeyDown) }
+  }, [])
 
   const isActive = (href: string) => pathname === href || (href !== "/" && pathname.startsWith(href))
 
   return (
-    <nav aria-label="প্রধান নেভিগেশন / Main navigation" className="bg-[var(--m-nav)]">
+    <nav ref={navRef} aria-label="প্রধান নেভিগেশন / Main navigation" className="bg-[var(--m-nav)]">
       <div className="site-container flex h-[52px] items-stretch justify-between">
         {/* Home button */}
         <Link
@@ -45,28 +60,28 @@ export function Navbar() {
         <ul className="hidden w-full items-stretch lg:flex">
           {navItems.map((item) => (
             <li key={item.href} className="group relative flex items-stretch">
-              <Link
-                href={item.href}
-                className={
-                  "flex items-center gap-1.5 px-3.5 text-[14.5px] leading-none text-white/95 transition-colors group-hover:bg-white/10 hover:bg-white/10 lg:px-4 " +
-                  (isActive(item.href) ? "bg-white/10" : "")
-                }
-              >
-                <T t={item.label} />
-                {item.children && (
-                  <ChevronDown
-                    className="size-3.5 opacity-80 transition-transform group-hover:rotate-180"
-                    aria-hidden="true"
-                  />
-                )}
-              </Link>
+              {item.children ? <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={openDropdown === item.href}
+                aria-controls={`desktop-menu-${item.href.slice(1).replaceAll("/", "-")}`}
+                onClick={() => setOpenDropdown((current) => current === item.href ? null : item.href)}
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowDown") {
+                    event.preventDefault()
+                    document.querySelector<HTMLAnchorElement>(`#desktop-menu-${item.href.slice(1).replaceAll("/", "-")} a`)?.focus()
+                  }
+                }}
+                className={"flex items-center gap-1.5 px-3.5 text-[14.5px] leading-none text-white/95 transition-colors hover:bg-white/10 lg:px-4 " + (isActive(item.href) ? "bg-white/10" : "")}
+              ><T t={item.label} /><ChevronDown className={"size-3.5 opacity-80 transition-transform " + (openDropdown === item.href ? "rotate-180" : "")} aria-hidden="true" /></button> : <Link href={item.href} className={"flex items-center gap-1.5 px-3.5 text-[14.5px] leading-none text-white/95 transition-colors hover:bg-white/10 lg:px-4 " + (isActive(item.href) ? "bg-white/10" : "")}><T t={item.label} /></Link>}
 
               {item.children && (
-                <ul className="invisible absolute left-0 top-full z-30 min-w-[220px] rounded-md bg-white py-1.5 opacity-0 shadow-lg ring-1 ring-black/5 transition-all duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                <ul id={`desktop-menu-${item.href.slice(1).replaceAll("/", "-")}`} role="menu" className={(openDropdown === item.href ? "visible opacity-100" : "invisible opacity-0") + " absolute left-0 top-full z-30 max-h-[min(70vh,420px)] min-w-[220px] max-w-[calc(100vw-24px)] overflow-y-auto rounded-md bg-white py-1.5 shadow-lg ring-1 ring-black/5 transition-all duration-150"}>
                   {item.children.map((child) => (
-                    <li key={child.href}>
+                    <li key={`${item.href}-${child.label.en}-${child.href}`}>
                       <Link
                         href={child.href}
+                        onClick={closeAll}
                         className="block px-4 py-2 text-[13.5px] text-slate-700 transition-colors hover:bg-slate-50 hover:text-[var(--m-blue)]"
                       >
                         <T t={child.label} />

@@ -8,7 +8,7 @@ import { MessageSquareQuote } from "lucide-react"
 /**
  * Leadership message cards. The blue (principal #442BC7) and indigo (vice
  * principal #3D4AEA) header colors follow the approved design. Names are
- * transcribed from the design; see the // VERIFY note in `src/data/madrasa.ts`.
+ * transcribed from the design and should be confirmed by the administration.
  */
 /** A single leadership message card (used standalone and in the grid). */
 export function LeadershipCard({ person }: { person: Leadership }) {

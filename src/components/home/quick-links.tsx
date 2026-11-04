@@ -1,4 +1,6 @@
-import Link from "next/link"
+import { SectionCard } from "@/components/home/section-card"
+import { T } from "@/components/language-provider"
+import { quickLinks, type QuickLink } from "@/data/madrasa"
 import {
   BadgeCheck,
   ChevronRight,
@@ -7,9 +9,7 @@ import {
   Images,
   Zap,
 } from "lucide-react"
-import { quickLinks, type QuickLink } from "@/data/madrasa"
-import { T } from "@/components/language-provider"
-import { SectionCard } from "@/components/home/section-card"
+import Link from "next/link"
 
 const iconByKey: Record<
   QuickLink["icon"],
@@ -29,6 +29,7 @@ const iconByKey: Record<
 export function QuickLinks() {
   return (
     <SectionCard
+     className="w-full"
       headerClassName="bg-gradient-to-r from-[var(--m-cardblue-from)] to-[var(--m-cardblue-to)]"
       title={{ bn: "কুইক লিংক", en: "Quick Links" }}
       icon={<Zap />}

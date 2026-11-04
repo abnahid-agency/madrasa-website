@@ -22,7 +22,7 @@ export function t(text: LocalizedText, lang: Language): string {
 
 /**
  * UI chrome labels reused across components.
- * Institutional content lives in `src/data/madrasa.ts`.
+ * Institutional content lives in the feature folders under `src/data`.
  */
 export const UI = {
   searchPlaceholder: { bn: "সার্চটি খুঁজুন…", en: "Search here…" } as LocalizedText,
